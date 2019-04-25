@@ -541,7 +541,7 @@ void fnGetIntData(int nTableNum);
 void fnSavePARData(int nTableNum);
 void fnSendTESTFR_ACT(int INDX);
 void fnWriteSPTime(int nIEC_Offset,  int nMS1, int nMS2, int nMin, int nHour, int nDay, int nMonth, int nYear);
-void fnWriteDPTime(int nIEC_Offset,   int *nMS1, int *nMS2, int *nMin, int nHour, int nDay, int nMonth);
+void fnWriteDPTime(int nIEC_Offset,   int nMS1, int nMS2, int nMin, int nHour, int nDay, int nMonth);
 float fnNorm2(long nBe, float M_LO, float M_HI, float n_LO, float n_HI,  BYTE *byFloat);
 void fnInitDelta(void);
 
@@ -1494,6 +1494,7 @@ float         n_HI;
 float         fRet;
 float         fAbsVal;
 long          lAbsVal;
+
 /* Inicializálás */
 
 
@@ -2138,7 +2139,7 @@ if (nSPWrPtr[INDX]==0)
 				strSPEventWT[INDX][nSPTempPtr].sTime.byYear			= mdt.year;
 
         /* Hogy jobban lehessen monitorozni */
-        fnWriteSPTime(nI, lMsec + nSec , mdt.seconds, mdt.minutes, mdt.hours, mdt.date , mdt.month, mdt.year);
+        fnWriteSPTime(nI, strSPEventWT[INDX][nSPTempPtr].sTime.byMs[0] , strSPEventWT[INDX][nSPTempPtr].sTime.byMs[1], mdt.minutes, mdt.hours, mdt.date , mdt.month, mdt.year);
 			
 			
 			nSPTempPtr++;
@@ -2208,7 +2209,7 @@ if (nDPWrPtr[INDX]==0)
 				strDPEventWT[INDX][nDPTempPtr].sTime.byYear			= mdt.year;
 
         /* Hogy jobban lehessen monitorozni */
-        fnWriteDPTime(nI, lMsec + nSec, mdt.seconds, mdt.minutes, mdt.hours, mdt.date , mdt.month);
+        fnWriteDPTime(nI, strDPEventWT[INDX][nDPTempPtr].sTime.byMs[0], strDPEventWT[INDX][nDPTempPtr].sTime.byMs[1], mdt.minutes, mdt.hours, mdt.date , mdt.month);
 								
 			nDPTempPtr++;	
 			
@@ -5228,7 +5229,7 @@ nIndx    = nIEC_Offset - nTblIndx *250;
 /* Kiolvas egy adatot a DP adatok kozul, ido adattal, a VALID/INVALID statuszt figyelembe veve	*/
 /*																			*/
 /****************************************************************************/
-void fnWriteDPTime(int nIEC_Offset,   int *nMS1, int *nMS2, int *nMin, int nHour, int nDay, int nMonth)
+void fnWriteDPTime(int nIEC_Offset,   int nMS1, int nMS2, int nMin, int nHour, int nDay, int nMonth)
 {
 short          *p_col_DPLAct;
 short          *p_col_DPHAct;
